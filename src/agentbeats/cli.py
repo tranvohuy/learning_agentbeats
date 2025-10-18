@@ -452,6 +452,7 @@ def _run_agent(card_path: str,
 
 def main():
     # add support for "agentbeats run_agent ..."
+    print("Running agentbeats CLI...")
     parser = argparse.ArgumentParser(prog="agentbeats")
     sub_parser = parser.add_subparsers(dest="cmd", required=True)
 
@@ -485,7 +486,6 @@ def main():
     run_parser.add_argument("--tool", action="append", default=[],
                        help="Python file(s) that define @agentbeats.tool()")
     run_parser.add_argument("--reload", action="store_true")
-
     # load_scenario command
     load_scenario_parser = sub_parser.add_parser("load_scenario", help="Launch a complete scenario from scenario.toml (agents, environment, etc.)")
     load_scenario_parser.add_argument("scenario_root", help="Path to scenario directory")
@@ -540,8 +540,14 @@ def main():
     check_parser = sub_parser.add_parser("check", help="Check AgentBeats environment setup")
 
     args = parser.parse_args()
-
+    print("arg cmd:", args.cmd)
     if args.cmd == "run_agent":
+        print("[CLI] Running 'run_agent' command (no launcher)...")
+        print(f"[CLI]   Agent card: {args.card}")
+        print(f"[CLI]   Agent host: {args.agent_host}, port: {args.agent_port}")
+        print(f"[CLI]   Model: {args.model_type}/{args.model_name}")
+        print(f"[CLI]   Tools: {args.tool}")
+        print(f"[CLI]   MCP servers: {args.mcp}")
         _run_agent(card_path=args.card, 
                    agent_host=args.agent_host,
                    agent_port=args.agent_port,
@@ -551,6 +557,14 @@ def main():
                    mcp_urls=args.mcp)
     
     elif args.cmd == "run":
+        print("[CLI] Running 'run' command with launcher...")
+        print(f"[CLI]   Agent card: {args.card}")
+        print(f"[CLI]   Launcher host: {args.launcher_host}, port: {args.launcher_port}")
+        print(f"[CLI]   Agent host: {args.agent_host}, port: {args.agent_port}")
+        print(f"[CLI]   Model: {args.model_type}/{args.model_name}")
+        print(f"[CLI]   Tools: {args.tool}")
+        print(f"[CLI]   MCP servers: {args.mcp}")
+
         launcher = BeatsAgentLauncher(agent_card=args.card,
                                       launcher_host=args.launcher_host,
                                       launcher_port=args.launcher_port,
@@ -560,6 +574,7 @@ def main():
                                       model_name=args.model_name,
                                       mcp_list=args.mcp,
                                       tool_list=args.tool)
+        print("reload:", args.reload)        
         launcher.run(reload=args.reload)
     
     elif args.cmd == "load_scenario":
