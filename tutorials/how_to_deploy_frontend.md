@@ -1,0 +1,6 @@
+- Clone the agentbeats repository: `git clone https://github.com/agentbeats/agentbeats.git`
+- Navigate to the frontend directory: `cd agentbeats/frontend/webapp-v2`
+- Install the dependencies: `npm install`
+- Add the `.env` file with the following variables: `VITE_DEV_LOGIN=true`
+- Start the development server: `npm run dev`
+- The frontend will be available at `http://localhost:5173`
